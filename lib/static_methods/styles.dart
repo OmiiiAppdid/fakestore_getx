@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../utils/app_url.dart';
+
 class Sty {
   TextStyle microText = TextStyle(
     letterSpacing: 0.5,
@@ -439,8 +441,4 @@ class STM {
       (Route<dynamic> route) => false,
     );
   }
-}
-
-class AppUrl {
-  static String mainUrl = "https://fakestoreapi.com/";
 }

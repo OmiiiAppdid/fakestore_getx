@@ -20,5 +20,6 @@ class ProDetailsController extends GetxController {
       details.value = pDetails;
       debugPrint("Pro Details :: $pDetails");
     }
+    update();
   }
 }

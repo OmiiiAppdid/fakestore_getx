@@ -1,8 +1,9 @@
 import 'package:fakestore_app_getx/view/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../static_methods/styles.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sign_in_button/sign_in_button.dart';
+import '../../static_methods/styles.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,6 +15,19 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController userCtrl = TextEditingController();
   TextEditingController passCtrl = TextEditingController();
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? _user;
+
+  @override
+  void initState() {
+    _auth.authStateChanges().listen((event) {
+      setState(() {
+        _user = event;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
               },
               cursorColor: Clr().hintColor,
               style: Sty().mediumText,
-              keyboardType: TextInputType.number, 
+              keyboardType: TextInputType.number,
               textInputAction: TextInputAction.done,
               obscureText: false,
               decoration: Sty().textFieldOutlineStyle.copyWith(
@@ -161,10 +175,62 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 32,
+            ),
+            Center(
+              child: SizedBox(
+                height: 48,
+                width: MediaQuery.of(context).size.width / 1.2,
+                child: ElevatedButton(
+                  onPressed: () {
+                    _handeleGoogleSignin();
+
+                  },
+                  child: Text(
+                    "Sign In With Google",
+                    style: Sty().mediumText.copyWith(
+                        color: Clr().white, fontWeight: FontWeight.w500),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Clr().primaryColor,
+                      elevation:
+                          passCtrl.text.isNotEmpty && userCtrl.text.isNotEmpty
+                              ? 1
+                              : 0),
+                ),
+              ),
+            ),
+            _user != null ? _userInfo() : _googleSignInButton()
           ],
         ),
       ),
     );
+  }
+
+  Widget _googleSignInButton() {
+    return Center(
+      child: SignInButton(
+        Buttons.google,
+        onPressed: () {
+          _handeleGoogleSignin();
+        },
+        text: "Sign In With Google",
+      ),
+    );
+  }
+
+  Widget _userInfo() {
+    return const SizedBox();
+  }
+
+  void _handeleGoogleSignin() {
+    try {
+      GoogleAuthProvider _googleAuthProvider = GoogleAuthProvider();
+      _auth.signInWithProvider(_googleAuthProvider);
+    } catch(error) {
+      print("Error :: $error");
+    }
   }
 
   ///Login API
@@ -174,6 +240,5 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       STM().finishAffinity(context, HomeScreen());
     });
-    // }
   }
 }

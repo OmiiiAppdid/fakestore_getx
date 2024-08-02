@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../static_methods/styles.dart';
-import 'login_screen.dart';
+import 'auth/login_screen.dart';
 
 
 class SplashScreen extends StatelessWidget {

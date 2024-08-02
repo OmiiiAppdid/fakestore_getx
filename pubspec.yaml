@@ -53,6 +53,8 @@ dev_dependencies:
   awesome_dialog:
   http:
   razorpay_flutter:
+  firebase_core:
+  sign_in_button:
 
 
 # For information on the generic Dart part of this file, see the

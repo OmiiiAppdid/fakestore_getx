@@ -1,14 +1,14 @@
 // To parse this JSON data, do
 //
-//     final welcome = welcomeFromJson(jsonString);
+//     final login = loginFromJson(jsonString);
 
 import 'dart:convert';
 
-List<Welcome> welcomeFromJson(String str) => List<Welcome>.from(json.decode(str).map((x) => Welcome.fromJson(x)));
+List<Login> loginFromJson(String str) => List<Login>.from(json.decode(str).map((x) => Login.fromJson(x)));
 
-String welcomeToJson(List<Welcome> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String loginToJson(List<Login> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Welcome {
+class Login {
   Address address;
   int id;
   String email;
@@ -18,7 +18,7 @@ class Welcome {
   String phone;
   int v;
 
-  Welcome({
+  Login({
     required this.address,
     required this.id,
     required this.email,
@@ -29,7 +29,7 @@ class Welcome {
     required this.v,
   });
 
-  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+  factory Login.fromJson(Map<String, dynamic> json) => Login(
     address: Address.fromJson(json["address"]),
     id: json["id"],
     email: json["email"],

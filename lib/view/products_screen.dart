@@ -39,24 +39,30 @@ class _ProductsScreenState extends State<ProductsScreen> {
         child: Column(
           children: [
             Obx(() {
-              return GridView.builder(
-                shrinkWrap: true,
-                itemCount: _productController.productList.length,
-                physics: const BouncingScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                    mainAxisExtent: 295),
-                itemBuilder: (context, index) {
-                  var v = _productController.productList[index];
-                  return AppLayouts().productLayout(
-                      context,
-                      index,
-                      _productController.productList[index],
-                      _productController.productList[index].id);
-                },
-              );
+              if (_productController.productList.isEmpty) {
+                return Center(
+                    child: CircularProgressIndicator(
+                  color: Clr().primaryColor,
+                ));
+              } else {
+                return GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: _productController.productList.length,
+                  physics: const BouncingScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      mainAxisExtent: 295),
+                  itemBuilder: (context, index) {
+                    return AppLayouts().productLayout(
+                        context,
+                        index,
+                        _productController.productList[index],
+                        _productController.productList[index].id);
+                  },
+                );
+              }
             }),
           ],
         ),
